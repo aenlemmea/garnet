@@ -1,2 +1,5 @@
 back/.env
+
+back/internal/database
+./database
 back/database

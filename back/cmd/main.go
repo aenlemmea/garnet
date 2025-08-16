@@ -18,6 +18,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer appCtx.DB.Close()
 
 	r := routes.SetupRoutes(appCtx)
 

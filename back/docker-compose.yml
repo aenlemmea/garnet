@@ -1,0 +1,17 @@
+# OUR:INSIDE
+# Usage: docker compose up --build
+services:
+  db:
+    container_name: "garnet_db"
+    image: postgres:latest
+    volumes:
+      - "./database/postgres-data:/var/lib/postgresql/data:rw"
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${PGDATABASE}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+    restart: unless-stopped
