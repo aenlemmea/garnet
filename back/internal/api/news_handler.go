@@ -10,6 +10,10 @@ import (
 
 type NewsHandler struct{} // Only knows about aggregator store.
 
+func CreateNewsHandler() *NewsHandler {
+	return &NewsHandler{}
+}
+
 func (ph *NewsHandler) HandleGetNewsById(w http.ResponseWriter, r *http.Request) {
 	paramsNewsID := chi.URLParam(r, "id")
 	if paramsNewsID == "" {
