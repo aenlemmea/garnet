@@ -36,8 +36,11 @@ func CreateAppContext() (*AppContext, error) {
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
-	aggregationHandler := api.CreateAggregationHandler()
-	personalizedHandler := api.CreatePersonalizedHandler()
+	aggStore := data.CreatePostgresAggregatorStore(pgDB)
+	perStore := data.CreatePostgresPersonalizedStore(pgDB)
+
+	aggregationHandler := api.CreateAggregationHandler(aggStore)
+	personalizedHandler := api.CreatePersonalizedHandler(perStore)
 	newsHandler := api.CreateNewsHandler()
 
 	appCtx := &AppContext{

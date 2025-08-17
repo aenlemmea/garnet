@@ -4,13 +4,18 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/aenlemmea/garnet/back/internal/data"
 	"github.com/go-chi/chi/v5"
 )
 
-type AggregationHandler struct{}
+type AggregationHandler struct {
+	aggregatorStore data.AggregatorStore
+}
 
-func CreateAggregationHandler() *AggregationHandler {
-	return &AggregationHandler{}
+func CreateAggregationHandler(aggregatorStore data.AggregatorStore) *AggregationHandler {
+	return &AggregationHandler{
+		aggregatorStore: aggregatorStore,
+	}
 }
 
 func (ah *AggregationHandler) HandleGetAggregation(w http.ResponseWriter, r *http.Request) {

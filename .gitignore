@@ -3,3 +3,8 @@ back/.env
 back/internal/database
 ./database
 back/database
+
+.vscode/
+.idea/
+.vim/
+back/.vscode/

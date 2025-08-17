@@ -4,13 +4,18 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/aenlemmea/garnet/back/internal/data"
 	"github.com/go-chi/chi/v5"
 )
 
-type PersonalizedHandler struct{}
+type PersonalizedHandler struct {
+	personalizedStore data.PersonalizedStore
+}
 
-func CreatePersonalizedHandler() *PersonalizedHandler {
-	return &PersonalizedHandler{}
+func CreatePersonalizedHandler(personalizedStore data.PersonalizedStore) *PersonalizedHandler {
+	return &PersonalizedHandler{
+		personalizedStore: personalizedStore,
+	}
 }
 
 func (ph *PersonalizedHandler) HandlePostRefresh(w http.ResponseWriter, r *http.Request) {
