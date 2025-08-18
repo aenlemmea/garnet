@@ -9,6 +9,7 @@ func SetupRoutes(appCtx *app.AppContext) *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Get("/health", appCtx.HealthCheck)
+	r.Get("/refresh", appCtx.RefreshFetch)
 
 	r.Get("/news/{id}", appCtx.NewsHandler.HandleGetNewsById)
 

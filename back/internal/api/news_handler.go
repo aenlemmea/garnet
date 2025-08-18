@@ -1,17 +1,23 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/aenlemmea/garnet/back/internal/data"
 	"github.com/go-chi/chi/v5"
 )
 
-type NewsHandler struct{} // Only knows about aggregator store.
+type NewsHandler struct {
+	aggregatorStore data.AggregatorStore
+} // Only knows about aggregator store.
 
-func CreateNewsHandler() *NewsHandler {
-	return &NewsHandler{}
+func CreateNewsHandler(aggregatorStore data.AggregatorStore) *NewsHandler {
+	return &NewsHandler{
+		aggregatorStore: aggregatorStore,
+	}
 }
 
 func (ph *NewsHandler) HandleGetNewsById(w http.ResponseWriter, r *http.Request) {
@@ -27,5 +33,13 @@ func (ph *NewsHandler) HandleGetNewsById(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	fmt.Fprintf(w, "This is the news ID: %d\n", newsID)
+	agg, err := ph.aggregatorStore.GetAggergatorByID(newsID)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Failed reading news by id", http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(agg)
 }
